@@ -12,6 +12,7 @@ class Connection:
         return res
     
     def save(self, collection, obj) -> None:
+        # to-do : add class checking
         query = { "$or": [ { "name": obj.name }, { "name_alt": obj.name } ] }
         values = { "$set": obj.format() } 
         x = self.db[collection].update_one(query, values, upsert=True)

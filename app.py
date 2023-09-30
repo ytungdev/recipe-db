@@ -1,17 +1,34 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 
 import os
 from bson.json_util import dumps
+from urllib import parse
 
 import model.database as database
 import model.models as models
 
 app = Flask(__name__)
+cors = CORS(app)
+CORS(app)
+
+
+
 db = database.Connection()
+
+
 
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+@app.get("/api")
+def get_api():
+    url = request.url
+    param = dict(parse.parse_qsl(parse.urlsplit(url).query))
+    print(url)
+    print(param)
+    return f'{param}'
 
 @app.route("/test")
 def testing():
